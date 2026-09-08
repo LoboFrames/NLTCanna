@@ -60,6 +60,7 @@
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth; -webkit-text-size-adjust:100%;}
+  [hidden]{display:none!important;}
   body{
     margin:0;
     background:var(--bg);
@@ -73,8 +74,11 @@
   header.top{
     background:var(--surface);
     border-bottom:1px solid var(--border);
-    padding:18px 0 0 0;
+    padding:14px 0 0 0;
   }
+  .langtoggle{display:inline-flex;border:1px solid var(--border);border-radius:999px;overflow:hidden;margin-bottom:12px;}
+  .langbtn{border:none;background:var(--surface-2);color:var(--text-muted);font-size:.78rem;font-weight:700;padding:7px 16px;cursor:pointer;font-family:inherit;}
+  .langbtn.active{background:var(--text);color:var(--surface);}
   header.top h1{
     font-size:1.35rem;
     margin:0 0 2px 0;
@@ -224,12 +228,7 @@
     width:20px;height:20px;flex:0 0 20px;margin-top:1px;accent-color:var(--success);
   }
   .checklist li.done label{color:var(--text-muted);text-decoration:line-through;}
-  .checklist li.optional label::after{
-    content:" (optional)";
-    font-style:italic;
-    color:var(--text-muted);
-    text-decoration:none;
-  }
+  .checklist li.optional label{font-style:italic;}
   .checklist-progress{
     display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:.82rem;color:var(--text-muted);
   }
@@ -254,8 +253,9 @@
   .calc-result.sani{background:var(--sani-bg);border-color:var(--sani-border);}
   .calc-result h3{margin:0 0 8px 0;font-size:.92rem;}
   .calc-result:last-of-type{margin-bottom:0;}
-  label.radio{display:inline-flex;align-items:center;gap:5px;font-size:.8rem;font-weight:500;background:var(--surface);border:1px solid var(--border);padding:5px 10px;border-radius:999px;cursor:pointer;}
-  label.radio input{margin:0;}
+  .radio-pill{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;font-weight:500;background:var(--surface);border:1px solid var(--border);padding:5px 10px;border-radius:999px;}
+  .radio-pill input{margin:0;}
+  .radio-pill label{cursor:pointer;}
   .calc-output{font-size:.95rem;margin:0;}
 
   footer{color:var(--text-muted);font-size:.76rem;padding:20px 0 0 0;}
@@ -272,72 +272,115 @@
 
 <header class="top">
   <div class="wrap">
-    <h1>Post-Harvest Irrigation Line Shock</h1>
-    <p class="sub">GreenClean® Acid Cleaner + SaniDate® 5.0 — batch-tank line treatment, NLT</p>
+    <div class="langtoggle" role="group" aria-label="Language / Idioma">
+      <button type="button" class="langbtn active" id="btnEn">English</button>
+      <button type="button" class="langbtn" id="btnEs">Español</button>
+    </div>
+
+    <h1 data-lang="en">Post-Harvest Irrigation Line Shock</h1>
+    <h1 data-lang="es" hidden>Choque de Líneas de Riego Post-Cosecha</h1>
+
+    <p class="sub" data-lang="en">GreenClean® Acid Cleaner + SaniDate® 5.0 — batch-tank line treatment, NLT</p>
+    <p class="sub" data-lang="es" hidden>GreenClean® Acid Cleaner + SaniDate® 5.0 — tratamiento de líneas con tanque de mezcla, NLT</p>
+
     <div class="facts">
-      <div class="fact"><b>After every harvest</b>run per room, once the table is cleared</div>
-      <div class="fact"><b>~24 hrs total</b>Day 1 8:00 AM → Day 2 8:00 AM</div>
-      <div class="fact"><b>Batch tank + pump</b>poured per room — no inline injector</div>
-      <div class="fact"><b>2 chemicals, always separated</b>full water flush between the two, never combined</div>
+      <div class="fact">
+        <span data-lang="en"><b>After every harvest</b>run per room, once the table is cleared</span>
+        <span data-lang="es" hidden><b>Después de cada cosecha</b>se hace por cuarto, una vez despejada la mesa</span>
+      </div>
+      <div class="fact">
+        <span data-lang="en"><b>~24 hrs total</b>Day 1 8:00 AM → Day 2 8:00 AM</span>
+        <span data-lang="es" hidden><b>~24 horas en total</b>Día 1, 8:00 a.m. → Día 2, 8:00 a.m.</span>
+      </div>
+      <div class="fact">
+        <span data-lang="en"><b>Batch tank + pump</b>poured per room — no inline injector</span>
+        <span data-lang="es" hidden><b>Tanque de mezcla + bomba</b>se vierte por cuarto — sin inyector en línea</span>
+      </div>
+      <div class="fact">
+        <span data-lang="en"><b>2 chemicals, always separated</b>full water flush between the two, never combined</span>
+        <span data-lang="es" hidden><b>2 químicos, siempre separados</b>enjuague completo con agua entre los dos — nunca se combinan</span>
+      </div>
     </div>
   </div>
 </header>
 
 <nav class="jump">
   <div class="wrap">
-    <a href="#safety">Safety</a>
-    <a href="#materials">Materials</a>
-    <a href="#dosing">Dosing</a>
-    <a href="#harvestday">Harvest Day</a>
-    <a href="#day1">Cleaning Day 1</a>
-    <a href="#day2">Cleaning Day 2</a>
-    <a href="#checklist">Checklist</a>
-    <a href="#trouble">Troubleshooting</a>
-    <a href="#open">Open Items</a>
+    <a href="#safety" data-lang="en">Safety</a><a href="#safety" data-lang="es" hidden>Seguridad</a>
+    <a href="#materials" data-lang="en">Materials</a><a href="#materials" data-lang="es" hidden>Materiales</a>
+    <a href="#dosing" data-lang="en">Dosing</a><a href="#dosing" data-lang="es" hidden>Dosificación</a>
+    <a href="#harvestday" data-lang="en">Harvest Day</a><a href="#harvestday" data-lang="es" hidden>Día de Cosecha</a>
+    <a href="#day1" data-lang="en">Cleaning Day 1</a><a href="#day1" data-lang="es" hidden>Día de Limpieza 1</a>
+    <a href="#day2" data-lang="en">Cleaning Day 2</a><a href="#day2" data-lang="es" hidden>Día de Limpieza 2</a>
+    <a href="#checklist" data-lang="en">Checklist</a><a href="#checklist" data-lang="es" hidden>Lista de Verificación</a>
+    <a href="#trouble" data-lang="en">Troubleshooting</a><a href="#trouble" data-lang="es" hidden>Problemas</a>
   </div>
 </nav>
 
 <main class="wrap">
 
   <section id="safety">
-    <h2>Safety &amp; PPE</h2>
+    <h2 data-lang="en">Safety &amp; PPE</h2>
+    <h2 data-lang="es" hidden>Seguridad y Equipo de Protección</h2>
 
     <div class="callout danger">
-      <span class="label">Critical — never let these two products touch</span>
-      <p>GreenClean Acid Cleaner's own safety data sheet lists <b>hydrogen peroxide</b> as a material it reacts dangerously with. SaniDate 5.0 <i>is</i> a hydrogen-peroxide / peroxyacetic-acid product. Never combine concentrates, never dose both into a tank at once, and always run the full Task 2 water flush before starting Task 3. That flush is what keeps the two chemicals from ever meeting in the piping — it isn't a time-saving target.</p>
-      <p>SaniDate 5.0's label separately prohibits combining it with any other pesticide or fertilizer concentrate — treat every batch as a single-product event.</p>
+      <span class="label" data-lang="en">Critical — never let these two products touch</span>
+      <span class="label" data-lang="es" hidden>Crítico — nunca deje que estos dos productos se toquen</span>
+
+      <p data-lang="en">GreenClean Acid Cleaner's own safety data sheet lists <b>hydrogen peroxide</b> as a material it reacts dangerously with. SaniDate 5.0 <i>is</i> a hydrogen-peroxide / peroxyacetic-acid product. Never combine concentrates, never dose both into a tank at once, and always run the full Task 2 water flush before starting Task 3. That flush is what keeps the two chemicals from ever meeting in the piping — it isn't a time-saving target.</p>
+      <p data-lang="es" hidden>La hoja de datos de seguridad (SDS) de GreenClean Acid Cleaner indica que el <b>peróxido de hidrógeno</b> es un material con el que reacciona peligrosamente. SaniDate 5.0 <i>es</i> un producto a base de peróxido de hidrógeno y ácido peracético. Nunca combine los concentrados, nunca dosifique ambos en el tanque al mismo tiempo, y siempre haga el enjuague completo con agua de la Tarea 2 antes de comenzar la Tarea 3. Ese enjuague es lo que evita que los dos químicos se encuentren en la tubería — no es un paso para ahorrar tiempo.</p>
+
+      <p data-lang="en">SaniDate 5.0's label separately prohibits combining it with any other pesticide or fertilizer concentrate — treat every batch as a single-product event.</p>
+      <p data-lang="es" hidden>La etiqueta de SaniDate 5.0 también prohíbe combinarlo con cualquier otro concentrado de pesticida o fertilizante — trate cada tanda como un evento de un solo producto.</p>
     </div>
 
     <div class="card">
-      <h3>Required PPE</h3>
-      <ul class="plain">
+      <h3 data-lang="en">Required PPE</h3>
+      <h3 data-lang="es" hidden>Equipo de Protección Requerido</h3>
+      <ul class="plain" data-lang="en">
         <li>Chemical-splash goggles or face shield</li>
         <li>Acid/oxidizer-resistant gloves — nitrile, neoprene, or rubber. <b>Not</b> leather or cotton.</li>
         <li>Long sleeves and pants; closed-toe, slip-resistant footwear</li>
         <li>Ventilate the room while dosing. Don't breathe mist, fumes, or spray from either product.</li>
       </ul>
+      <ul class="plain" data-lang="es" hidden>
+        <li>Gafas contra salpicaduras químicas o careta protectora</li>
+        <li>Guantes resistentes a ácidos/oxidantes — nitrilo, neopreno o goma. <b>No</b> de cuero ni de algodón.</li>
+        <li>Mangas largas y pantalones largos; calzado cerrado y antideslizante</li>
+        <li>Ventile el cuarto mientras dosifica. No respire la niebla, los vapores ni el rocío de ninguno de los dos productos.</li>
+      </ul>
     </div>
 
     <div class="callout warn">
-      <span class="label">Where the flush water goes</span>
-      <p>Flush water runs out through the same table drippers used for dosing — make sure it drains through the room's floor drain and doesn't pool or run toward any adjacent room with live plants.</p>
+      <span class="label" data-lang="en">Where the flush water goes</span>
+      <span class="label" data-lang="es" hidden>A dónde va el agua del enjuague</span>
+      <p data-lang="en">Flush water runs out through the same table drippers used for dosing — make sure it drains through the room's floor drain and doesn't pool or run toward any adjacent room with live plants.</p>
+      <p data-lang="es" hidden>El agua del enjuague sale por los mismos goteros de las mesas usados para dosificar — asegúrese de que drene por el desagüe del piso del cuarto y que no se acumule ni corra hacia un cuarto vecino con plantas vivas.</p>
     </div>
 
     <div class="card">
-      <h3>First aid (either product)</h3>
-      <ul class="plain">
+      <h3 data-lang="en">First aid (either product)</h3>
+      <h3 data-lang="es" hidden>Primeros auxilios (cualquiera de los dos productos)</h3>
+      <ul class="plain" data-lang="en">
         <li><b>Eyes / skin:</b> rinse with water for at least 15 minutes; remove contact lenses if present; take off contaminated clothing immediately.</li>
         <li><b>Inhalation:</b> move to fresh air, keep comfortable for breathing.</li>
         <li><b>Ingestion:</b> rinse mouth, do <b>not</b> induce vomiting.</li>
         <li>Call Poison Control (1-800-222-1222) or a physician for any exposure. Keep the SDS for both products on hand.</li>
       </ul>
+      <ul class="plain" data-lang="es" hidden>
+        <li><b>Ojos / piel:</b> enjuague con agua durante al menos 15 minutos; quítese los lentes de contacto si los tiene puestos; quítese de inmediato la ropa contaminada.</li>
+        <li><b>Inhalación:</b> traslade a la persona a un lugar con aire fresco y manténgala en una posición cómoda para respirar.</li>
+        <li><b>Ingestión:</b> enjuague la boca, <b>no</b> induzca el vómito.</li>
+        <li>Llame al Centro de Control de Envenenamientos (1-800-222-1222) o a un médico ante cualquier exposición. Tenga a la mano la SDS de ambos productos.</li>
+      </ul>
     </div>
   </section>
 
   <section id="materials">
-    <h2>Materials &amp; Equipment</h2>
+    <h2 data-lang="en">Materials &amp; Equipment</h2>
+    <h2 data-lang="es" hidden>Materiales y Equipo</h2>
     <div class="card">
-      <ul class="plain">
+      <ul class="plain" data-lang="en">
         <li>GreenClean® Acid Cleaner concentrate</li>
         <li>SaniDate® 5.0 concentrate</li>
         <li>The room's batch tank + pump — NLT doses by pouring concentrate straight into the tank, no inline injector</li>
@@ -345,134 +388,281 @@
         <li>PPE: goggles/face shield, nitrile or neoprene gloves, apron or coveralls</li>
         <li>SDS binder for both products</li>
       </ul>
-      <p style="color:var(--text-muted);font-size:.82rem;margin:10px 0 0 0;">Optional, not currently part of the NLT process: pH test strips (confirm acid reaches the furthest dripper / confirm neutral before Task 3) and peroxyacetic acid (PAA) test strips (confirm SaniDate reaches the furthest dripper / confirm clear after the final flush). See <a href="#open">Open Items</a>.</p>
+      <ul class="plain" data-lang="es" hidden>
+        <li>Concentrado de GreenClean® Acid Cleaner</li>
+        <li>Concentrado de SaniDate® 5.0</li>
+        <li>El tanque de mezcla y la bomba del cuarto — NLT dosifica vertiendo el concentrado directamente en el tanque, sin inyector en línea</li>
+        <li>Suministro de agua limpia para el enjuague</li>
+        <li>EPP: gafas/careta, guantes de nitrilo o neopreno, delantal o overol</li>
+        <li>Carpeta con la SDS de ambos productos</li>
+      </ul>
     </div>
   </section>
 
   <section id="dosing">
-    <h2>Batch Tank Dosing Calculator</h2>
+    <h2 data-lang="en">Batch Tank Dosing Calculator</h2>
+    <h2 data-lang="es" hidden>Calculadora de Dosificación del Tanque de Mezcla</h2>
     <div class="card">
-      <p>Enter the working volume of the room's batch tank to get a pour amount for each product.</p>
+      <p data-lang="en">Enter the working volume of the room's batch tank to get a pour amount for each product.</p>
+      <p data-lang="es" hidden>Ingrese el volumen de trabajo del tanque de mezcla del cuarto para obtener la cantidad a verter de cada producto.</p>
+
       <div class="calc-row">
-        <label for="tankSize">Batch tank volume</label>
+        <label for="tankSize" data-lang="en">Batch tank volume</label>
+        <label for="tankSize" data-lang="es" hidden>Volumen del tanque de mezcla</label>
         <div class="calc-input">
           <input type="number" id="tankSize" min="0" step="any" inputmode="decimal" placeholder="e.g. 200">
-          <span>gallons</span>
+          <span data-lang="en">gallons</span>
+          <span data-lang="es" hidden>galones</span>
         </div>
       </div>
 
       <div class="calc-result acid">
         <h3>GreenClean® Acid Cleaner</h3>
         <div class="tag-row" style="margin-bottom:8px;">
-          <label class="radio"><input type="radio" name="gcRatio" value="50" checked> 1:50 (printed label)</label>
-          <label class="radio"><input type="radio" name="gcRatio" value="100"> 1:100 (BioSafe field procedure)</label>
+          <span class="radio-pill">
+            <input type="radio" id="gc50" name="gcRatio" value="50" checked>
+            <label for="gc50" data-lang="en">1:50 (printed label)</label>
+            <label for="gc50" data-lang="es" hidden>1:50 (etiqueta impresa)</label>
+          </span>
+          <span class="radio-pill">
+            <input type="radio" id="gc100" name="gcRatio" value="100">
+            <label for="gc100" data-lang="en">1:100 (BioSafe field procedure)</label>
+            <label for="gc100" data-lang="es" hidden>1:100 (procedimiento de campo de BioSafe)</label>
+          </span>
         </div>
-        <p class="calc-output" id="gcOutput">Enter a tank size above.</p>
+        <p class="calc-output" id="gcOutput" data-lang="en">Enter a tank size above.</p>
+        <p class="calc-output" id="gcOutputEs" data-lang="es" hidden>Ingrese el tamaño del tanque arriba.</p>
       </div>
 
       <div class="calc-result sani">
         <h3>SaniDate® 5.0</h3>
-        <p style="margin:0 0 8px 0;"><span class="tag">Fixed at 1:100</span></p>
-        <p class="calc-output" id="sdOutput">Enter a tank size above.</p>
+        <p style="margin:0 0 8px 0;">
+          <span class="tag" data-lang="en">Fixed at 1:100</span>
+          <span class="tag" data-lang="es" hidden>Fijo en 1:100</span>
+        </p>
+        <p class="calc-output" id="sdOutput" data-lang="en">Enter a tank size above.</p>
+        <p class="calc-output" id="sdOutputEs" data-lang="es" hidden>Ingrese el tamaño del tanque arriba.</p>
       </div>
 
-      <p style="color:var(--text-muted);font-size:.78rem;">Math only — not a substitute for the label. Confirm against the current container label before mixing, especially once NLT settles on one GreenClean ratio going forward (see <a href="#open">Open Items</a>).</p>
     </div>
   </section>
 
   <section id="harvestday">
-    <p class="day-label">Harvest Day</p>
+    <p class="day-label" data-lang="en">Harvest Day</p>
+    <p class="day-label" data-lang="es" hidden>Día de Cosecha</p>
     <div class="stage-card neutral">
-      <div class="stage-head"><h3>Clear the room</h3><span class="tag">Before Cleaning Day 1</span></div>
+      <div class="stage-head">
+        <h3 data-lang="en">Clear the room</h3>
+        <h3 data-lang="es" hidden>Despejar el cuarto</h3>
+        <span class="tag" data-lang="en">Before Cleaning Day 1</span>
+        <span class="tag" data-lang="es" hidden>Antes del Día de Limpieza 1</span>
+      </div>
       <div class="stage-body">
-        <ul class="plain" style="margin-bottom:0;">
+        <ul class="plain" style="margin-bottom:0;" data-lang="en">
           <li>Remove all trash from the tables.</li>
           <li>Throw all empty pots in the trash trailer.</li>
+        </ul>
+        <ul class="plain" style="margin-bottom:0;" data-lang="es" hidden>
+          <li>Retire toda la basura de las mesas.</li>
+          <li>Tire todas las macetas vacías en el remolque de basura.</li>
         </ul>
       </div>
     </div>
   </section>
 
   <section id="day1">
-    <p class="day-label">Cleaning Day 1</p>
+    <p class="day-label" data-lang="en">Cleaning Day 1</p>
+    <p class="day-label" data-lang="es" hidden>Día de Limpieza 1</p>
 
     <div class="stage-card acid">
       <div class="stage-head">
-        <h3>Task 1 · GreenClean® Acid Cleaner</h3>
-        <div class="tag-row"><span class="tag">8:00 AM</span><span class="tag">Hold 3 hrs</span><span class="tag">Label rec.: 2–3 hrs</span></div>
+        <h3 data-lang="en">Task 1 · GreenClean® Acid Cleaner</h3>
+        <h3 data-lang="es" hidden>Tarea 1 · GreenClean® Acid Cleaner</h3>
+        <div class="tag-row">
+          <span class="tag">8:00 AM</span>
+          <span class="tag" data-lang="en">Hold 3 hrs</span><span class="tag" data-lang="es" hidden>Mantener 3 horas</span>
+          <span class="tag" data-lang="en">Label rec.: 2–3 hrs</span><span class="tag" data-lang="es" hidden>Recom. etiqueta: 2–3 horas</span>
+        </div>
       </div>
       <div class="stage-body">
-        <p>Dose the room's batch tank with GreenClean Acid Cleaner (see <a href="#dosing">Dosing Calculator</a>) and pump the solution through the irrigation drippers on the tables.</p>
-        <p>Hold it in the piping for <b>3 hours</b> — until 11:00 AM. That sits at the top of the product label's recommended <b>2–3 hour</b> dwell window for irrigation line cleaning.</p>
+        <p data-lang="en">Dose the room's batch tank with GreenClean Acid Cleaner (see <a href="#dosing">Dosing Calculator</a>) and pump the solution through the irrigation drippers on the tables.</p>
+        <p data-lang="es" hidden>Dosifique el tanque de mezcla del cuarto con GreenClean Acid Cleaner (vea la <a href="#dosing">Calculadora de Dosificación</a>) y bombee la solución por los goteros de riego de las mesas.</p>
+        <p data-lang="en">Hold it in the piping for <b>3 hours</b> — until 11:00 AM. That sits at the top of the product label's recommended <b>2–3 hour</b> dwell window for irrigation line cleaning.</p>
+        <p data-lang="es" hidden>Manténgalo en la tubería durante <b>3 horas</b> — hasta las 11:00 a.m. Esto está en el extremo superior de la ventana de contacto de <b>2 a 3 horas</b> que recomienda la etiqueta del producto para la limpieza de líneas de riego.</p>
       </div>
     </div>
 
     <div class="stage-card neutral">
-      <div class="stage-head"><h3>Task 2 · Flush</h3><span class="tag">11:00 AM</span></div>
+      <div class="stage-head">
+        <h3 data-lang="en">Task 2 · Flush</h3>
+        <h3 data-lang="es" hidden>Tarea 2 · Enjuague</h3>
+        <span class="tag">11:00 AM</span>
+      </div>
       <div class="stage-body">
-        <p>Run clean water through the drippers to flush the acid cleaner out of the lines.</p>
+        <p data-lang="en">Run clean water through the drippers to flush the acid cleaner out of the lines.</p>
+        <p data-lang="es" hidden>Haga correr agua limpia por los goteros para enjuagar el limpiador ácido de las líneas.</p>
       </div>
     </div>
 
     <div class="stage-card sani">
       <div class="stage-head">
-        <h3>Task 3 · SaniDate® 5.0</h3>
-        <div class="tag-row"><span class="tag">11:20 AM</span><span class="tag">Hold overnight</span><span class="tag">Label rec.: 4+ hrs, overnight preferred</span></div>
+        <h3 data-lang="en">Task 3 · SaniDate® 5.0</h3>
+        <h3 data-lang="es" hidden>Tarea 3 · SaniDate® 5.0</h3>
+        <div class="tag-row">
+          <span class="tag">11:20 AM</span>
+          <span class="tag" data-lang="en">Hold overnight</span><span class="tag" data-lang="es" hidden>Mantener toda la noche</span>
+          <span class="tag" data-lang="en">Label rec.: 4+ hrs, overnight preferred</span><span class="tag" data-lang="es" hidden>Recom. etiqueta: 4+ horas, se prefiere toda la noche</span>
+        </div>
       </div>
       <div class="stage-body">
-        <p>Dose the batch tank with SaniDate 5.0 (see <a href="#dosing">Dosing Calculator</a>) and pump it through the same drippers.</p>
-        <p>Hold it in the piping overnight — into Cleaning Day 2, about <b>20 hrs 40 min</b> until the 8:00 AM flush. BioSafe's guidance calls for a <b>minimum 4-hour</b> dwell with overnight (12–24 hrs) preferred — this comfortably clears both.</p>
+        <p data-lang="en">Dose the batch tank with SaniDate 5.0 (see <a href="#dosing">Dosing Calculator</a>) and pump it through the same drippers.</p>
+        <p data-lang="es" hidden>Dosifique el tanque de mezcla con SaniDate 5.0 (vea la <a href="#dosing">Calculadora de Dosificación</a>) y bombéelo por los mismos goteros.</p>
+        <p data-lang="en">Hold it in the piping overnight — into Cleaning Day 2, about <b>20 hrs 40 min</b> until the 8:00 AM flush. BioSafe's guidance calls for a <b>minimum 4-hour</b> dwell with overnight (12–24 hrs) preferred — this comfortably clears both.</p>
+        <p data-lang="es" hidden>Manténgalo en la tubería toda la noche — hasta el Día de Limpieza 2, unas <b>20 horas y 40 minutos</b> hasta el enjuague de las 8:00 a.m. Las indicaciones de BioSafe piden un contacto mínimo de <b>4 horas</b>, prefiriendo toda la noche (12–24 horas) — esto cumple cómodamente con ambos casos.</p>
       </div>
     </div>
   </section>
 
   <section id="day2">
-    <p class="day-label">Cleaning Day 2</p>
+    <p class="day-label" data-lang="en">Cleaning Day 2</p>
+    <p class="day-label" data-lang="es" hidden>Día de Limpieza 2</p>
     <div class="stage-card neutral">
-      <div class="stage-head"><h3>Final flush &amp; check</h3><span class="tag">8:00 AM</span></div>
+      <div class="stage-head">
+        <h3 data-lang="en">Final flush &amp; check</h3>
+        <h3 data-lang="es" hidden>Enjuague final y revisión</h3>
+        <span class="tag">8:00 AM</span>
+      </div>
       <div class="stage-body">
-        <ul class="plain" style="margin-bottom:0;">
+        <ul class="plain" style="margin-bottom:0;" data-lang="en">
           <li>Flush out the SaniDate 5.0 with clean water.</li>
           <li>Check all of the drippers for proper water flow before returning the room to normal use.</li>
+        </ul>
+        <ul class="plain" style="margin-bottom:0;" data-lang="es" hidden>
+          <li>Enjuague el SaniDate 5.0 con agua limpia.</li>
+          <li>Revise todos los goteros para verificar el flujo correcto de agua antes de regresar el cuarto a su uso normal.</li>
         </ul>
       </div>
     </div>
   </section>
 
   <section id="checklist">
-    <h2>Verification Checklist</h2>
+    <h2 data-lang="en">Verification Checklist</h2>
+    <h2 data-lang="es" hidden>Lista de Verificación</h2>
     <div class="card">
-      <div class="checklist-progress"><span id="progressLabel">0 / 12 complete</span></div>
+      <div class="checklist-progress"><span id="progressLabel">0 / 10 complete</span></div>
       <div class="bar"><span id="progressBar"></span></div>
       <ul class="checklist" id="checklist">
-        <li><input type="checkbox" id="c1"><label for="c1">Tables cleared of trash (Harvest Day)</label></li>
-        <li><input type="checkbox" id="c2"><label for="c2">Empty pots removed to trash trailer (Harvest Day)</label></li>
-        <li><input type="checkbox" id="c3"><label for="c3">PPE on before handling either concentrate</label></li>
-        <li><input type="checkbox" id="c4"><label for="c4">Task 1 — batch tank dosed with GreenClean, 8:00 AM</label></li>
-        <li><input type="checkbox" id="c5"><label for="c5">Task 1 — held in piping 3 hrs, until 11:00 AM</label></li>
-        <li><input type="checkbox" id="c6"><label for="c6">Task 2 — lines flushed with clean water, 11:00 AM</label></li>
-        <li><input type="checkbox" id="c7"><label for="c7">Task 3 — batch tank dosed with SaniDate 5.0, 11:20 AM</label></li>
-        <li><input type="checkbox" id="c8"><label for="c8">Task 3 — held in piping overnight (~20 hrs 40 min)</label></li>
-        <li><input type="checkbox" id="c9"><label for="c9">Day 2 — lines flushed with clean water, 8:00 AM</label></li>
-        <li><input type="checkbox" id="c10"><label for="c10">Day 2 — all drippers checked for proper flow</label></li>
-        <li class="optional"><input type="checkbox" id="c11"><label for="c11">pH strip confirmed neutral before Task 3</label></li>
-        <li class="optional"><input type="checkbox" id="c12"><label for="c12">PAA strip confirmed clear after final flush</label></li>
+        <li>
+          <input type="checkbox" id="c1">
+          <label for="c1" data-lang="en">Tables cleared of trash (Harvest Day)</label>
+          <label for="c1" data-lang="es" hidden>Mesas sin basura (Día de Cosecha)</label>
+        </li>
+        <li>
+          <input type="checkbox" id="c2">
+          <label for="c2" data-lang="en">Empty pots removed to trash trailer (Harvest Day)</label>
+          <label for="c2" data-lang="es" hidden>Macetas vacías llevadas al remolque de basura (Día de Cosecha)</label>
+        </li>
+        <li>
+          <input type="checkbox" id="c3">
+          <label for="c3" data-lang="en">PPE on before handling either concentrate</label>
+          <label for="c3" data-lang="es" hidden>EPP puesto antes de manejar cualquiera de los concentrados</label>
+        </li>
+        <li>
+          <input type="checkbox" id="c4">
+          <label for="c4" data-lang="en">Task 1 — batch tank dosed with GreenClean, 8:00 AM</label>
+          <label for="c4" data-lang="es" hidden>Tarea 1 — tanque de mezcla dosificado con GreenClean, 8:00 a.m.</label>
+        </li>
+        <li>
+          <input type="checkbox" id="c5">
+          <label for="c5" data-lang="en">Task 1 — held in piping 3 hrs, until 11:00 AM</label>
+          <label for="c5" data-lang="es" hidden>Tarea 1 — mantenido en la tubería 3 horas, hasta las 11:00 a.m.</label>
+        </li>
+        <li>
+          <input type="checkbox" id="c6">
+          <label for="c6" data-lang="en">Task 2 — lines flushed with clean water, 11:00 AM</label>
+          <label for="c6" data-lang="es" hidden>Tarea 2 — líneas enjuagadas con agua limpia, 11:00 a.m.</label>
+        </li>
+        <li>
+          <input type="checkbox" id="c7">
+          <label for="c7" data-lang="en">Task 3 — batch tank dosed with SaniDate 5.0, 11:20 AM</label>
+          <label for="c7" data-lang="es" hidden>Tarea 3 — tanque de mezcla dosificado con SaniDate 5.0, 11:20 a.m.</label>
+        </li>
+        <li>
+          <input type="checkbox" id="c8">
+          <label for="c8" data-lang="en">Task 3 — held in piping overnight (~20 hrs 40 min)</label>
+          <label for="c8" data-lang="es" hidden>Tarea 3 — mantenido en la tubería toda la noche (~20 h 40 min)</label>
+        </li>
+        <li>
+          <input type="checkbox" id="c9">
+          <label for="c9" data-lang="en">Day 2 — lines flushed with clean water, 8:00 AM</label>
+          <label for="c9" data-lang="es" hidden>Día 2 — líneas enjuagadas con agua limpia, 8:00 a.m.</label>
+        </li>
+        <li>
+          <input type="checkbox" id="c10">
+          <label for="c10" data-lang="en">Day 2 — all drippers checked for proper flow</label>
+          <label for="c10" data-lang="es" hidden>Día 2 — todos los goteros revisados para verificar el flujo correcto</label>
+        </li>
       </ul>
     </div>
-    <p style="color:var(--text-muted);font-size:.78rem;">Checklist state is page-only and resets on reload — nothing here is saved anywhere. See <a href="#open">Open Items</a>.</p>
+    <p style="color:var(--text-muted);font-size:.78rem;" data-lang="en">Checkboxes above reset if you reload the page — they're just for working through the list. Use <b>Save to Sheet</b> below to log a permanent record.</p>
+    <p style="color:var(--text-muted);font-size:.78rem;" data-lang="es" hidden>Las casillas de arriba se reinician si recarga la página — son solo para ir marcando la lista. Use <b>Guardar en Sheet</b> abajo para registrar un dato permanente.</p>
+
+    <div class="card" id="syncCard">
+      <h3 data-lang="en">Log to Google Sheet</h3>
+      <h3 data-lang="es" hidden>Registrar en Google Sheet</h3>
+
+      <div class="calc-row">
+        <label for="roomId" data-lang="en">Room</label>
+        <label for="roomId" data-lang="es" hidden>Cuarto</label>
+        <div class="calc-input">
+          <input type="text" id="roomId" placeholder="e.g. Room 4">
+        </div>
+      </div>
+
+      <div class="calc-row">
+        <label for="byInitials" data-lang="en">Initials</label>
+        <label for="byInitials" data-lang="es" hidden>Iniciales</label>
+        <div class="calc-input">
+          <input type="text" id="byInitials" placeholder="e.g. JL" style="flex:0 1 100px;">
+        </div>
+      </div>
+
+      <div class="calc-row">
+        <label for="endpointUrl" data-lang="en">Apps Script URL — from the NLT grow team sheet's deployment</label>
+        <label for="endpointUrl" data-lang="es" hidden>URL de Apps Script — del despliegue en el sheet del equipo de cultivo de NLT</label>
+        <div class="calc-input">
+          <input type="url" id="endpointUrl" placeholder="https://script.google.com/macros/s/.../exec" style="flex:1 1 240px;">
+        </div>
+      </div>
+
+      <button type="button" id="syncBtn" class="langbtn active" style="border-radius:10px;padding:10px 18px;">
+        <span data-lang="en">Save to Sheet</span><span data-lang="es" hidden>Guardar en Sheet</span>
+      </button>
+      <p id="syncStatus" style="color:var(--text-muted);font-size:.8rem;margin:8px 0 0 0;"></p>
+    </div>
   </section>
 
   <section id="trouble">
-    <h2>Troubleshooting</h2>
+    <h2 data-lang="en">Troubleshooting</h2>
+    <h2 data-lang="es" hidden>Solución de Problemas</h2>
     <div class="card">
       <div class="tw">
-      <table>
+      <table data-lang="en">
         <thead><tr><th>Symptom</th><th>What to do</th></tr></thead>
         <tbody>
           <tr><td>Dripper flow weak or uneven after treatment</td><td>The acid cleaner loosens scale/biofilm that can lodge in a dripper. Pull and clear the affected one before returning the room to service — don't force the pump against a partial blockage.</td></tr>
           <tr><td>Not confident the acid is fully flushed at 11:00 AM</td><td>Keep flushing before dosing SaniDate 5.0. A full flush matters more than the clock — see the safety warning above.</td></tr>
           <tr><td>Batch tank pump loses prime mid-task</td><td>Stop, re-prime, and restart that task's hold time once the pump is confirmed running again.</td></tr>
-          <tr><td>Unsure which GreenClean ratio to use</td><td>Check the physical label on the container in hand and see Open Items / the Dosing Calculator above.</td></tr>
+          <tr><td>Unsure which GreenClean ratio to use</td><td>Check the physical label on the container in hand — the Dosing Calculator above lets you switch between 1:50 and 1:100.</td></tr>
+        </tbody>
+      </table>
+      <table data-lang="es" hidden>
+        <thead><tr><th>Síntoma</th><th>Qué hacer</th></tr></thead>
+        <tbody>
+          <tr><td>Flujo del gotero débil o desigual después del tratamiento</td><td>El limpiador ácido afloja sarro/biopelícula que puede alojarse en un gotero. Retire y limpie el que esté afectado antes de regresar el cuarto a servicio — no fuerce la bomba contra una obstrucción parcial.</td></tr>
+          <tr><td>No hay certeza de que el ácido quedó bien enjuagado a las 11:00 a.m.</td><td>Siga enjuagando antes de dosificar el SaniDate 5.0. Un enjuague completo importa más que el reloj — vea la advertencia de seguridad arriba.</td></tr>
+          <tr><td>La bomba del tanque de mezcla pierde el cebado a media tarea</td><td>Deténgase, vuelva a cebar la bomba, y reinicie el tiempo de espera de esa tarea una vez que confirme que la bomba está funcionando de nuevo.</td></tr>
+          <tr><td>No está seguro de qué proporción de GreenClean usar</td><td>Revise la etiqueta física del envase que tiene a la mano — la Calculadora de Dosificación de arriba le permite cambiar entre 1:50 y 1:100.</td></tr>
         </tbody>
       </table>
       </div>
@@ -480,10 +670,12 @@
   </section>
 
   <section id="docs">
-    <h2>Documentation</h2>
+    <h2 data-lang="en">Documentation</h2>
+    <h2 data-lang="es" hidden>Documentación</h2>
     <div class="card">
-      <p>Record per room:</p>
-      <ul class="plain">
+      <p data-lang="en">Record per room:</p>
+      <p data-lang="es" hidden>Registre por cuarto:</p>
+      <ul class="plain" data-lang="en">
         <li>Date, technician, room ID, harvest reference</li>
         <li>Batch tank volume and amount of each product poured</li>
         <li>Task 1 (acid) start time; Task 2 (flush) start time; Task 3 (SaniDate) start time</li>
@@ -491,75 +683,154 @@
         <li>Any deviation and the corrective action taken</li>
         <li>Sign-off</li>
       </ul>
-    </div>
-  </section>
-
-  <section id="open">
-    <h2>Open Items</h2>
-    <div class="callout warn">
-      <span class="label">Confirm before standardizing</span>
-      <p><b>GreenClean Acid Cleaner ratio.</b> The printed product label specifies <b>1:50</b> for irrigation line cleaning. BioSafe's own published two-step field procedure for this same treatment instead uses <b>1:100</b>. This page defaults the calculator to the label rate (1:50) — confirm against the current label (rev. V6 or later) on the container in hand, and switch the toggle above if NLT standardizes on the field-procedure rate instead.</p>
-    </div>
-    <div class="callout warn">
-      <span class="label">Not yet defined</span>
-      <p>Batch tank volume isn't fixed in this page — it's typed in per use. If every room's tank is the same size, that number can be hardcoded here instead.</p>
-      <p>Whether to add the optional pH/PAA strip checks to the standard process, or keep it exactly as run today (dosed by time and a full flush, no strip testing).</p>
-      <p>Whether the checklist should log to the shared harvest log sheet (like the processing dashboard) or stay page-only, as it does now.</p>
+      <ul class="plain" data-lang="es" hidden>
+        <li>Fecha, técnico, identificación del cuarto, referencia de la cosecha</li>
+        <li>Volumen del tanque de mezcla y cantidad vertida de cada producto</li>
+        <li>Hora de inicio de la Tarea 1 (ácido); hora de inicio de la Tarea 2 (enjuague); hora de inicio de la Tarea 3 (SaniDate)</li>
+        <li>Hora del enjuague final del Día 2 y resultado de la revisión de flujo de los goteros</li>
+        <li>Cualquier desviación y la acción correctiva tomada</li>
+        <li>Firma de conformidad</li>
+      </ul>
     </div>
   </section>
 
   <footer>
-    <p>Products: GreenClean® Acid Cleaner (BioSafe Systems — cleaning product, not EPA-registered; sulfuric acid 70–75% + phosphonic acid/HEDP 1–5% per SDS) and SaniDate® 5.0 (BioSafe Systems — EPA Reg. No. 70299-19; 23.0% hydrogen peroxide, 5.3% peroxyacetic acid per label). Rates and dwell times drawn from the current product labels, safety data sheets, and BioSafe's published two-step irrigation line procedure — always defer to the physical label and SDS on the container in hand.</p>
-    <ul>
+    <p data-lang="en">Products: GreenClean® Acid Cleaner (BioSafe Systems — cleaning product, not EPA-registered; sulfuric acid 70–75% + phosphonic acid/HEDP 1–5% per SDS) and SaniDate® 5.0 (BioSafe Systems — EPA Reg. No. 70299-19; 23.0% hydrogen peroxide, 5.3% peroxyacetic acid per label). Rates and dwell times drawn from the current product labels, safety data sheets, and BioSafe's published two-step irrigation line procedure — always defer to the physical label and SDS on the container in hand.</p>
+    <p data-lang="es" hidden>Productos: GreenClean® Acid Cleaner (BioSafe Systems — producto de limpieza, no registrado ante la EPA; ácido sulfúrico 70–75% + ácido fosfónico/HEDP 1–5% según la SDS) y SaniDate® 5.0 (BioSafe Systems — Núm. de Registro EPA 70299-19; 23.0% peróxido de hidrógeno, 5.3% ácido peracético según la etiqueta). Las proporciones y los tiempos de contacto provienen de las etiquetas actuales de los productos, las hojas de datos de seguridad, y el procedimiento de dos pasos para líneas de riego publicado por BioSafe — siempre siga la etiqueta física y la SDS del envase que tiene a la mano.</p>
+    <ul data-lang="en">
       <li><a href="https://biosafesystems.com/product/greenclean-acid-cleaner/" target="_blank" rel="noopener">GreenClean Acid Cleaner — product page</a></li>
       <li><a href="https://biosafesystems.com/product/sanidate-5/" target="_blank" rel="noopener">SaniDate 5.0 — product page</a></li>
       <li><a href="https://biosafesystems.com/news/biosafe-systems-two-step-procedure-ensures-clean-irrigation-lines/" target="_blank" rel="noopener">BioSafe Systems — two-step irrigation line procedure</a></li>
     </ul>
-    <p>Screen-only reference. Review whenever the product labels change. Version 1.2 · September 2026 — schedule shifted to an 8:00 AM start; label/field dwell-time recommendations called out inline next to each hold.</p>
+    <ul data-lang="es" hidden>
+      <li><a href="https://biosafesystems.com/product/greenclean-acid-cleaner/" target="_blank" rel="noopener">GreenClean Acid Cleaner — página del producto</a></li>
+      <li><a href="https://biosafesystems.com/product/sanidate-5/" target="_blank" rel="noopener">SaniDate 5.0 — página del producto</a></li>
+      <li><a href="https://biosafesystems.com/news/biosafe-systems-two-step-procedure-ensures-clean-irrigation-lines/" target="_blank" rel="noopener">BioSafe Systems — procedimiento de dos pasos para líneas de riego</a></li>
+    </ul>
+    <p data-lang="en">Screen-only reference. Review whenever the product labels change. Version 1.3 · September 2026 — added an English/Español toggle.</p>
+    <p data-lang="es" hidden>Referencia solo en pantalla. Revísela cuando cambien las etiquetas de los productos. Versión 1.3 · septiembre de 2026 — se agregó un interruptor de inglés/español.</p>
   </footer>
 
 </main>
 
 <script>
 (function(){
-  var boxes = document.querySelectorAll('#checklist input[type=checkbox]');
-  var total = boxes.length;
-  var label = document.getElementById('progressLabel');
-  var bar = document.getElementById('progressBar');
-  function update(){
+  var currentLang = 'en';
+  var btnEn = document.getElementById('btnEn');
+  var btnEs = document.getElementById('btnEs');
+  var tankInput = document.getElementById('tankSize');
+
+  function fmt(n){ return (Math.round(n*100)/100).toString(); }
+
+  function updateChecklist(){
+    var boxes = document.querySelectorAll('#checklist input[type=checkbox]');
+    var total = boxes.length;
     var done = 0;
     boxes.forEach(function(b){
       var li = b.closest('li');
       if(b.checked){ done++; li.classList.add('done'); }
       else { li.classList.remove('done'); }
     });
-    label.textContent = done + ' / ' + total + ' complete';
-    bar.style.width = (total ? (done/total*100) : 0) + '%';
+    var label = document.getElementById('progressLabel');
+    label.textContent = (currentLang === 'es') ? (done + ' de ' + total + ' completados') : (done + ' / ' + total + ' complete');
+    document.getElementById('progressBar').style.width = (total ? (done/total*100) : 0) + '%';
   }
-  boxes.forEach(function(b){ b.addEventListener('change', update); });
-  update();
-})();
 
-(function(){
-  function fmt(n){ return (Math.round(n*100)/100).toString(); }
-  function compute(){
-    var tank = parseFloat(document.getElementById('tankSize').value);
+  function updateDosing(){
+    var tank = parseFloat(tankInput.value);
     var gcRatio = parseFloat(document.querySelector('input[name=gcRatio]:checked').value);
     var gcOut = document.getElementById('gcOutput');
+    var gcOutEs = document.getElementById('gcOutputEs');
     var sdOut = document.getElementById('sdOutput');
+    var sdOutEs = document.getElementById('sdOutputEs');
     if(!tank || tank <= 0){
       gcOut.textContent = 'Enter a tank size above.';
+      gcOutEs.textContent = 'Ingrese el tamaño del tanque arriba.';
       sdOut.textContent = 'Enter a tank size above.';
+      sdOutEs.textContent = 'Ingrese el tamaño del tanque arriba.';
       return;
     }
     var gcGal = tank / gcRatio;
     var sdGal = tank / 100;
     gcOut.innerHTML = 'Pour <b>' + fmt(gcGal) + ' gal</b> (' + fmt(gcGal*4) + ' qt) of GreenClean Acid Cleaner into ' + fmt(tank) + ' gal of water — ratio 1:' + gcRatio + '.';
+    gcOutEs.innerHTML = 'Vierta <b>' + fmt(gcGal) + ' gal</b> (' + fmt(gcGal*4) + ' qt) de GreenClean Acid Cleaner en ' + fmt(tank) + ' gal de agua — proporción 1:' + gcRatio + '.';
     sdOut.innerHTML = 'Pour <b>' + fmt(sdGal) + ' gal</b> (' + fmt(sdGal*4) + ' qt) of SaniDate 5.0 into ' + fmt(tank) + ' gal of water — ratio 1:100.';
+    sdOutEs.innerHTML = 'Vierta <b>' + fmt(sdGal) + ' gal</b> (' + fmt(sdGal*4) + ' qt) de SaniDate 5.0 en ' + fmt(tank) + ' gal de agua — proporción 1:100.';
   }
-  document.getElementById('tankSize').addEventListener('input', compute);
-  document.querySelectorAll('input[name=gcRatio]').forEach(function(r){ r.addEventListener('change', compute); });
-  compute();
+
+  var roomInput = document.getElementById('roomId');
+  var byInput = document.getElementById('byInitials');
+  var endpointInput = document.getElementById('endpointUrl');
+  var syncBtn = document.getElementById('syncBtn');
+  var syncStatus = document.getElementById('syncStatus');
+
+  function collectItems(){
+    var items = {};
+    document.querySelectorAll('#checklist input[type=checkbox]').forEach(function(b){
+      items[b.id] = b.checked;
+    });
+    return items;
+  }
+
+  function syncToSheet(){
+    var url = endpointInput.value.trim();
+    if(!url){
+      syncStatus.textContent = (currentLang === 'es')
+        ? 'Pegue la URL de Apps Script arriba primero.'
+        : 'Paste the Apps Script URL above first.';
+      return;
+    }
+    syncStatus.textContent = (currentLang === 'es') ? 'Guardando…' : 'Saving…';
+    var payload = {
+      type: 'irrigationLineShock',
+      room: roomInput.value.trim(),
+      date: new Date().toLocaleDateString(),
+      by: byInput.value.trim(),
+      items: collectItems()
+    };
+    fetch(url, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {'Content-Type': 'text/plain'},
+      body: JSON.stringify(payload)
+    }).then(function(){
+      syncStatus.textContent = (currentLang === 'es')
+        ? 'Enviado. No se puede confirmar la recepción desde aquí — revise la hoja.'
+        : "Sent. This page can't confirm receipt — check the sheet.";
+    }).catch(function(){
+      syncStatus.textContent = (currentLang === 'es') ? 'Error de red — inténtelo de nuevo.' : 'Network error — try again.';
+    });
+  }
+
+  window.setLang = function(lang){
+    currentLang = lang;
+    document.querySelectorAll('[data-lang]').forEach(function(el){
+      el.hidden = el.getAttribute('data-lang') !== lang;
+    });
+    document.documentElement.lang = lang;
+    btnEn.classList.toggle('active', lang === 'en');
+    btnEs.classList.toggle('active', lang === 'es');
+    tankInput.placeholder = (lang === 'es') ? 'ej. 200' : 'e.g. 200';
+    document.title = (lang === 'es') ? 'SOP de Choque de Línea de Riego — NLT' : 'Irrigation Line Shock SOP — NLT';
+    syncStatus.textContent = '';
+    updateChecklist();
+    updateDosing();
+  };
+
+  btnEn.addEventListener('click', function(){ setLang('en'); });
+  btnEs.addEventListener('click', function(){ setLang('es'); });
+
+  document.querySelectorAll('#checklist input[type=checkbox]').forEach(function(b){
+    b.addEventListener('change', updateChecklist);
+  });
+  tankInput.addEventListener('input', updateDosing);
+  document.querySelectorAll('input[name=gcRatio]').forEach(function(r){
+    r.addEventListener('change', updateDosing);
+  });
+  syncBtn.addEventListener('click', syncToSheet);
+
+  updateChecklist();
+  updateDosing();
 })();
 </script>
 
