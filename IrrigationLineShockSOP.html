@@ -119,18 +119,22 @@
   }
   nav.jump::-webkit-scrollbar{display:none;}
   nav.jump .wrap{display:flex;gap:8px;padding:8px 16px;}
-  nav.jump a{
+  nav.jump button{
     flex:0 0 auto;
     display:inline-block;
     background:var(--chip-bg);
     color:var(--text);
+    font:inherit;
     text-decoration:none;
     font-size:.78rem;
     font-weight:600;
     padding:7px 12px;
     border-radius:999px;
     border:1px solid var(--border);
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
   }
+  nav.jump button:active{background:var(--surface-2);}
 
   main{padding-top:18px;}
   section{margin-bottom:22px;}
@@ -141,6 +145,50 @@
     border-bottom:1px solid var(--border);
   }
   h3{font-size:.95rem;margin:0 0 6px 0;}
+
+  .day-label{
+    font-size:.72rem;
+    font-weight:700;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--text-muted);
+    margin:0 0 8px 2px;
+  }
+
+  .day-section{
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:16px 14px 14px 14px;
+    margin-bottom:24px;
+  }
+  .day-section .stage-card:last-child{margin-bottom:0;}
+  .day-head{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:0 0 12px 2px;
+  }
+  .day-badge{
+    flex:0 0 auto;
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    background:var(--text);
+    color:var(--surface);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:.82rem;
+    font-weight:800;
+  }
+  .day-head .day-label{
+    margin:0;
+    font-size:.95rem;
+    font-weight:800;
+    letter-spacing:.03em;
+    color:var(--text);
+  }
 
   .card{
     background:var(--surface);
@@ -174,16 +222,8 @@
   .callout.warn .label{color:var(--warn);}
   .callout.success .label{color:var(--success);}
 
-  .day-label{
-    font-size:.72rem;
-    font-weight:700;
-    letter-spacing:.08em;
-    text-transform:uppercase;
-    color:var(--text-muted);
-    margin:0 0 8px 2px;
-  }
-
   .stage-card{border-radius:14px;border:1px solid var(--border);background:var(--surface);box-shadow:var(--shadow);margin-bottom:14px;overflow:hidden;}
+  .stage-card:last-child{margin-bottom:0;}
   .stage-card .stage-head{padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;}
   .stage-card .stage-head h3{margin:0;font-size:1rem;}
   .stage-card.acid .stage-head{background:var(--acid-bg);color:var(--acid);}
@@ -208,6 +248,17 @@
   ol.steps li:last-child{margin-bottom:0;}
   ul.plain{margin:0;padding-left:1.2em;}
   ul.plain li{margin-bottom:6px;}
+
+  .link-btn{
+    background:none;
+    border:none;
+    padding:0;
+    margin:0;
+    font:inherit;
+    color:var(--sani);
+    text-decoration:underline;
+    cursor:pointer;
+  }
 
   table{width:100%;border-collapse:collapse;font-size:.85rem;}
   th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;}
@@ -262,9 +313,53 @@
   footer a{color:var(--text-muted);}
   footer ul{padding-left:1.1em;margin:6px 0;}
 
+  dialog.modal{
+    border:none;
+    padding:0;
+    border-radius:16px;
+    width:calc(100% - 32px);
+    max-width:560px;
+    max-height:85vh;
+    background:var(--surface);
+    color:var(--text);
+    box-shadow:var(--shadow);
+  }
+  dialog.modal::backdrop{background:rgba(0,0,0,.55);}
+  dialog.modal .modal-head{
+    position:sticky;
+    top:0;
+    background:var(--surface);
+    border-bottom:1px solid var(--border);
+    border-radius:16px 16px 0 0;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+  dialog.modal .modal-title{font-size:1.05rem;font-weight:600;}
+  dialog.modal .modal-close{
+    flex:0 0 auto;
+    border:none;
+    background:var(--surface-2);
+    color:var(--text);
+    width:30px;
+    height:30px;
+    border-radius:999px;
+    font-size:1.05rem;
+    line-height:1;
+    cursor:pointer;
+  }
+  dialog.modal .modal-body{padding:16px;overflow-y:auto;max-height:calc(85vh - 56px);}
+  dialog.modal .modal-body section{margin-bottom:0;}
+  dialog.modal .modal-body > *:last-child{margin-bottom:0;}
+
   @media (max-width:520px){
     header.top h1{font-size:1.15rem;}
     .stage-card .stage-head{flex-direction:column;align-items:flex-start;}
+    dialog.modal{width:100%;max-width:100%;height:100%;max-height:100%;margin:0;border-radius:0;}
+    dialog.modal .modal-head{border-radius:0;}
+    dialog.modal .modal-body{max-height:calc(100% - 56px);}
   }
 </style>
 </head>
@@ -306,150 +401,22 @@
 
 <nav class="jump">
   <div class="wrap">
-    <a href="#safety" data-lang="en">Safety</a><a href="#safety" data-lang="es" hidden>Seguridad</a>
-    <a href="#materials" data-lang="en">Materials</a><a href="#materials" data-lang="es" hidden>Materiales</a>
-    <a href="#dosing" data-lang="en">Dosing</a><a href="#dosing" data-lang="es" hidden>Dosificación</a>
-    <a href="#harvestday" data-lang="en">Harvest Day</a><a href="#harvestday" data-lang="es" hidden>Día de Cosecha</a>
-    <a href="#day1" data-lang="en">Cleaning Day 1</a><a href="#day1" data-lang="es" hidden>Día de Limpieza 1</a>
-    <a href="#day2" data-lang="en">Cleaning Day 2</a><a href="#day2" data-lang="es" hidden>Día de Limpieza 2</a>
-    <a href="#checklist" data-lang="en">Checklist</a><a href="#checklist" data-lang="es" hidden>Lista de Verificación</a>
-    <a href="#trouble" data-lang="en">Troubleshooting</a><a href="#trouble" data-lang="es" hidden>Problemas</a>
+    <button type="button" data-modal="safetyModal"><span data-lang="en">Safety</span><span data-lang="es" hidden>Seguridad</span></button>
+    <button type="button" data-modal="materialsModal"><span data-lang="en">Materials</span><span data-lang="es" hidden>Materiales</span></button>
+    <button type="button" data-modal="dosingModal"><span data-lang="en">Dosing</span><span data-lang="es" hidden>Dosificación</span></button>
+    <button type="button" data-modal="troubleModal"><span data-lang="en">Troubleshooting</span><span data-lang="es" hidden>Problemas</span></button>
+    <button type="button" data-modal="docsModal"><span data-lang="en">Documentation</span><span data-lang="es" hidden>Documentación</span></button>
   </div>
 </nav>
 
 <main class="wrap">
 
-  <section id="safety">
-    <h2 data-lang="en">Safety &amp; PPE</h2>
-    <h2 data-lang="es" hidden>Seguridad y Equipo de Protección</h2>
-
-    <div class="callout danger">
-      <span class="label" data-lang="en">Critical — never let these two products touch</span>
-      <span class="label" data-lang="es" hidden>Crítico — nunca deje que estos dos productos se toquen</span>
-
-      <p data-lang="en">GreenClean Acid Cleaner's own safety data sheet lists <b>hydrogen peroxide</b> as a material it reacts dangerously with. SaniDate 5.0 <i>is</i> a hydrogen-peroxide / peroxyacetic-acid product. Never combine concentrates, never dose both into a tank at once, and always run the full Task 2 water flush before starting Task 3. That flush is what keeps the two chemicals from ever meeting in the piping — it isn't a time-saving target.</p>
-      <p data-lang="es" hidden>La hoja de datos de seguridad (SDS) de GreenClean Acid Cleaner indica que el <b>peróxido de hidrógeno</b> es un material con el que reacciona peligrosamente. SaniDate 5.0 <i>es</i> un producto a base de peróxido de hidrógeno y ácido peracético. Nunca combine los concentrados, nunca dosifique ambos en el tanque al mismo tiempo, y siempre haga el enjuague completo con agua de la Tarea 2 antes de comenzar la Tarea 3. Ese enjuague es lo que evita que los dos químicos se encuentren en la tubería — no es un paso para ahorrar tiempo.</p>
-
-      <p data-lang="en">SaniDate 5.0's label separately prohibits combining it with any other pesticide or fertilizer concentrate — treat every batch as a single-product event.</p>
-      <p data-lang="es" hidden>La etiqueta de SaniDate 5.0 también prohíbe combinarlo con cualquier otro concentrado de pesticida o fertilizante — trate cada tanda como un evento de un solo producto.</p>
+  <section class="day-section" id="harvestday">
+    <div class="day-head">
+      <span class="day-badge" aria-hidden="true">0</span>
+      <p class="day-label" data-lang="en">Harvest Day</p>
+      <p class="day-label" data-lang="es" hidden>Día de Cosecha</p>
     </div>
-
-    <div class="card">
-      <h3 data-lang="en">Required PPE</h3>
-      <h3 data-lang="es" hidden>Equipo de Protección Requerido</h3>
-      <ul class="plain" data-lang="en">
-        <li>Chemical-splash goggles or face shield</li>
-        <li>Acid/oxidizer-resistant gloves — nitrile, neoprene, or rubber. <b>Not</b> leather or cotton.</li>
-        <li>Long sleeves and pants; closed-toe, slip-resistant footwear</li>
-        <li>Ventilate the room while dosing. Don't breathe mist, fumes, or spray from either product.</li>
-      </ul>
-      <ul class="plain" data-lang="es" hidden>
-        <li>Gafas contra salpicaduras químicas o careta protectora</li>
-        <li>Guantes resistentes a ácidos/oxidantes — nitrilo, neopreno o goma. <b>No</b> de cuero ni de algodón.</li>
-        <li>Mangas largas y pantalones largos; calzado cerrado y antideslizante</li>
-        <li>Ventile el cuarto mientras dosifica. No respire la niebla, los vapores ni el rocío de ninguno de los dos productos.</li>
-      </ul>
-    </div>
-
-    <div class="callout warn">
-      <span class="label" data-lang="en">Where the flush water goes</span>
-      <span class="label" data-lang="es" hidden>A dónde va el agua del enjuague</span>
-      <p data-lang="en">Flush water runs out through the same table drippers used for dosing — make sure it drains through the room's floor drain and doesn't pool or run toward any adjacent room with live plants.</p>
-      <p data-lang="es" hidden>El agua del enjuague sale por los mismos goteros de las mesas usados para dosificar — asegúrese de que drene por el desagüe del piso del cuarto y que no se acumule ni corra hacia un cuarto vecino con plantas vivas.</p>
-    </div>
-
-    <div class="card">
-      <h3 data-lang="en">First aid (either product)</h3>
-      <h3 data-lang="es" hidden>Primeros auxilios (cualquiera de los dos productos)</h3>
-      <ul class="plain" data-lang="en">
-        <li><b>Eyes / skin:</b> rinse with water for at least 15 minutes; remove contact lenses if present; take off contaminated clothing immediately.</li>
-        <li><b>Inhalation:</b> move to fresh air, keep comfortable for breathing.</li>
-        <li><b>Ingestion:</b> rinse mouth, do <b>not</b> induce vomiting.</li>
-        <li>Call Poison Control (1-800-222-1222) or a physician for any exposure. Keep the SDS for both products on hand.</li>
-      </ul>
-      <ul class="plain" data-lang="es" hidden>
-        <li><b>Ojos / piel:</b> enjuague con agua durante al menos 15 minutos; quítese los lentes de contacto si los tiene puestos; quítese de inmediato la ropa contaminada.</li>
-        <li><b>Inhalación:</b> traslade a la persona a un lugar con aire fresco y manténgala en una posición cómoda para respirar.</li>
-        <li><b>Ingestión:</b> enjuague la boca, <b>no</b> induzca el vómito.</li>
-        <li>Llame al Centro de Control de Envenenamientos (1-800-222-1222) o a un médico ante cualquier exposición. Tenga a la mano la SDS de ambos productos.</li>
-      </ul>
-    </div>
-  </section>
-
-  <section id="materials">
-    <h2 data-lang="en">Materials &amp; Equipment</h2>
-    <h2 data-lang="es" hidden>Materiales y Equipo</h2>
-    <div class="card">
-      <ul class="plain" data-lang="en">
-        <li>GreenClean® Acid Cleaner concentrate</li>
-        <li>SaniDate® 5.0 concentrate</li>
-        <li>The room's batch tank + pump — NLT doses by pouring concentrate straight into the tank, no inline injector</li>
-        <li>Clean water supply for flushing</li>
-        <li>PPE: goggles/face shield, nitrile or neoprene gloves, apron or coveralls</li>
-        <li>SDS binder for both products</li>
-      </ul>
-      <ul class="plain" data-lang="es" hidden>
-        <li>Concentrado de GreenClean® Acid Cleaner</li>
-        <li>Concentrado de SaniDate® 5.0</li>
-        <li>El tanque de mezcla y la bomba del cuarto — NLT dosifica vertiendo el concentrado directamente en el tanque, sin inyector en línea</li>
-        <li>Suministro de agua limpia para el enjuague</li>
-        <li>EPP: gafas/careta, guantes de nitrilo o neopreno, delantal o overol</li>
-        <li>Carpeta con la SDS de ambos productos</li>
-      </ul>
-    </div>
-  </section>
-
-  <section id="dosing">
-    <h2 data-lang="en">Batch Tank Dosing Calculator</h2>
-    <h2 data-lang="es" hidden>Calculadora de Dosificación del Tanque de Mezcla</h2>
-    <div class="card">
-      <p data-lang="en">Enter the working volume of the room's batch tank to get a pour amount for each product.</p>
-      <p data-lang="es" hidden>Ingrese el volumen de trabajo del tanque de mezcla del cuarto para obtener la cantidad a verter de cada producto.</p>
-
-      <div class="calc-row">
-        <label for="tankSize" data-lang="en">Batch tank volume</label>
-        <label for="tankSize" data-lang="es" hidden>Volumen del tanque de mezcla</label>
-        <div class="calc-input">
-          <input type="number" id="tankSize" min="0" step="any" inputmode="decimal" placeholder="e.g. 200">
-          <span data-lang="en">gallons</span>
-          <span data-lang="es" hidden>galones</span>
-        </div>
-      </div>
-
-      <div class="calc-result acid">
-        <h3>GreenClean® Acid Cleaner</h3>
-        <div class="tag-row" style="margin-bottom:8px;">
-          <span class="radio-pill">
-            <input type="radio" id="gc50" name="gcRatio" value="50" checked>
-            <label for="gc50" data-lang="en">1:50 (printed label)</label>
-            <label for="gc50" data-lang="es" hidden>1:50 (etiqueta impresa)</label>
-          </span>
-          <span class="radio-pill">
-            <input type="radio" id="gc100" name="gcRatio" value="100">
-            <label for="gc100" data-lang="en">1:100 (BioSafe field procedure)</label>
-            <label for="gc100" data-lang="es" hidden>1:100 (procedimiento de campo de BioSafe)</label>
-          </span>
-        </div>
-        <p class="calc-output" id="gcOutput" data-lang="en">Enter a tank size above.</p>
-        <p class="calc-output" id="gcOutputEs" data-lang="es" hidden>Ingrese el tamaño del tanque arriba.</p>
-      </div>
-
-      <div class="calc-result sani">
-        <h3>SaniDate® 5.0</h3>
-        <p style="margin:0 0 8px 0;">
-          <span class="tag" data-lang="en">Fixed at 1:100</span>
-          <span class="tag" data-lang="es" hidden>Fijo en 1:100</span>
-        </p>
-        <p class="calc-output" id="sdOutput" data-lang="en">Enter a tank size above.</p>
-        <p class="calc-output" id="sdOutputEs" data-lang="es" hidden>Ingrese el tamaño del tanque arriba.</p>
-      </div>
-
-    </div>
-  </section>
-
-  <section id="harvestday">
-    <p class="day-label" data-lang="en">Harvest Day</p>
-    <p class="day-label" data-lang="es" hidden>Día de Cosecha</p>
     <div class="stage-card neutral">
       <div class="stage-head">
         <h3 data-lang="en">Clear the room</h3>
@@ -470,9 +437,12 @@
     </div>
   </section>
 
-  <section id="day1">
-    <p class="day-label" data-lang="en">Cleaning Day 1</p>
-    <p class="day-label" data-lang="es" hidden>Día de Limpieza 1</p>
+  <section class="day-section" id="day1">
+    <div class="day-head">
+      <span class="day-badge" aria-hidden="true">1</span>
+      <p class="day-label" data-lang="en">Cleaning Day 1</p>
+      <p class="day-label" data-lang="es" hidden>Día de Limpieza 1</p>
+    </div>
 
     <div class="stage-card acid">
       <div class="stage-head">
@@ -485,8 +455,8 @@
         </div>
       </div>
       <div class="stage-body">
-        <p data-lang="en">Dose the room's batch tank with GreenClean Acid Cleaner (see <a href="#dosing">Dosing Calculator</a>) and pump the solution through the irrigation drippers on the tables.</p>
-        <p data-lang="es" hidden>Dosifique el tanque de mezcla del cuarto con GreenClean Acid Cleaner (vea la <a href="#dosing">Calculadora de Dosificación</a>) y bombee la solución por los goteros de riego de las mesas.</p>
+        <p data-lang="en">Dose the room's batch tank with GreenClean Acid Cleaner (see <button type="button" class="link-btn" data-modal="dosingModal">Dosing Calculator</button>) and pump the solution through the irrigation drippers on the tables.</p>
+        <p data-lang="es" hidden>Dosifique el tanque de mezcla del cuarto con GreenClean Acid Cleaner (vea la <button type="button" class="link-btn" data-modal="dosingModal">Calculadora de Dosificación</button>) y bombee la solución por los goteros de riego de las mesas.</p>
         <p data-lang="en">Hold it in the piping for <b>3 hours</b> — until 11:00 AM. That sits at the top of the product label's recommended <b>2–3 hour</b> dwell window for irrigation line cleaning.</p>
         <p data-lang="es" hidden>Manténgalo en la tubería durante <b>3 horas</b> — hasta las 11:00 a.m. Esto está en el extremo superior de la ventana de contacto de <b>2 a 3 horas</b> que recomienda la etiqueta del producto para la limpieza de líneas de riego.</p>
       </div>
@@ -515,17 +485,20 @@
         </div>
       </div>
       <div class="stage-body">
-        <p data-lang="en">Dose the batch tank with SaniDate 5.0 (see <a href="#dosing">Dosing Calculator</a>) and pump it through the same drippers.</p>
-        <p data-lang="es" hidden>Dosifique el tanque de mezcla con SaniDate 5.0 (vea la <a href="#dosing">Calculadora de Dosificación</a>) y bombéelo por los mismos goteros.</p>
+        <p data-lang="en">Dose the batch tank with SaniDate 5.0 (see <button type="button" class="link-btn" data-modal="dosingModal">Dosing Calculator</button>) and pump it through the same drippers.</p>
+        <p data-lang="es" hidden>Dosifique el tanque de mezcla con SaniDate 5.0 (vea la <button type="button" class="link-btn" data-modal="dosingModal">Calculadora de Dosificación</button>) y bombéelo por los mismos goteros.</p>
         <p data-lang="en">Hold it in the piping overnight — into Cleaning Day 2, about <b>20 hrs 40 min</b> until the 8:00 AM flush. BioSafe's guidance calls for a <b>minimum 4-hour</b> dwell with overnight (12–24 hrs) preferred — this comfortably clears both.</p>
         <p data-lang="es" hidden>Manténgalo en la tubería toda la noche — hasta el Día de Limpieza 2, unas <b>20 horas y 40 minutos</b> hasta el enjuague de las 8:00 a.m. Las indicaciones de BioSafe piden un contacto mínimo de <b>4 horas</b>, prefiriendo toda la noche (12–24 horas) — esto cumple cómodamente con ambos casos.</p>
       </div>
     </div>
   </section>
 
-  <section id="day2">
-    <p class="day-label" data-lang="en">Cleaning Day 2</p>
-    <p class="day-label" data-lang="es" hidden>Día de Limpieza 2</p>
+  <section class="day-section" id="day2">
+    <div class="day-head">
+      <span class="day-badge" aria-hidden="true">2</span>
+      <p class="day-label" data-lang="en">Cleaning Day 2</p>
+      <p class="day-label" data-lang="es" hidden>Día de Limpieza 2</p>
+    </div>
     <div class="stage-card neutral">
       <div class="stage-head">
         <h3 data-lang="en">Final flush &amp; check</h3>
@@ -545,7 +518,7 @@
     </div>
   </section>
 
-  <section id="checklist">
+  <section>
     <h2 data-lang="en">Verification Checklist</h2>
     <h2 data-lang="es" hidden>Lista de Verificación</h2>
     <div class="card">
@@ -604,13 +577,14 @@
         </li>
       </ul>
     </div>
-    <p style="color:var(--text-muted);font-size:.78rem;" data-lang="en">Checkboxes above reset if you reload the page — they're just for working through the list. Use <b>Save to Sheet</b> below to log a permanent record.</p>
-    <p style="color:var(--text-muted);font-size:.78rem;" data-lang="es" hidden>Las casillas de arriba se reinician si recarga la página — son solo para ir marcando la lista. Use <b>Guardar en Sheet</b> abajo para registrar un dato permanente.</p>
+    <p style="color:var(--text-muted);font-size:.78rem;" data-lang="en">Checkboxes above reset if you reload the page — they're just for working through the list. Use <b>Log to Sheet</b> below to save a permanent record.</p>
+    <p style="color:var(--text-muted);font-size:.78rem;" data-lang="es" hidden>Las casillas de arriba se reinician si recarga la página — son solo para ir marcando la lista. Use <b>Registrar en Sheet</b> abajo para guardar un dato permanente.</p>
+  </section>
 
+  <section>
+    <h2 data-lang="en">Log to Sheet</h2>
+    <h2 data-lang="es" hidden>Registrar en Sheet</h2>
     <div class="card" id="syncCard">
-      <h3 data-lang="en">Log to Google Sheet</h3>
-      <h3 data-lang="es" hidden>Registrar en Google Sheet</h3>
-
       <div class="calc-row">
         <label for="roomId" data-lang="en">Room</label>
         <label for="roomId" data-lang="es" hidden>Cuarto</label>
@@ -642,36 +616,207 @@
     </div>
   </section>
 
-  <section id="trouble">
-    <h2 data-lang="en">Troubleshooting</h2>
-    <h2 data-lang="es" hidden>Solución de Problemas</h2>
+</main>
+
+<footer class="wrap">
+  <p data-lang="en">Products: GreenClean® Acid Cleaner (BioSafe Systems — cleaning product, not EPA-registered; sulfuric acid 70–75% + phosphonic acid/HEDP 1–5% per SDS) and SaniDate® 5.0 (BioSafe Systems — EPA Reg. No. 70299-19; 23.0% hydrogen peroxide, 5.3% peroxyacetic acid per label). Rates and dwell times drawn from the current product labels, safety data sheets, and BioSafe's published two-step irrigation line procedure — always defer to the physical label and SDS on the container in hand.</p>
+  <p data-lang="es" hidden>Productos: GreenClean® Acid Cleaner (BioSafe Systems — producto de limpieza, no registrado ante la EPA; ácido sulfúrico 70–75% + ácido fosfónico/HEDP 1–5% según la SDS) y SaniDate® 5.0 (BioSafe Systems — Núm. de Registro EPA 70299-19; 23.0% peróxido de hidrógeno, 5.3% ácido peracético según la etiqueta). Las proporciones y los tiempos de contacto provienen de las etiquetas actuales de los productos, las hojas de datos de seguridad, y el procedimiento de dos pasos para líneas de riego publicado por BioSafe — siempre siga la etiqueta física y la SDS del envase que tiene a la mano.</p>
+  <ul data-lang="en">
+    <li><a href="https://biosafesystems.com/product/greenclean-acid-cleaner/" target="_blank" rel="noopener">GreenClean Acid Cleaner — product page</a></li>
+    <li><a href="https://biosafesystems.com/product/sanidate-5/" target="_blank" rel="noopener">SaniDate 5.0 — product page</a></li>
+    <li><a href="https://biosafesystems.com/news/biosafe-systems-two-step-procedure-ensures-clean-irrigation-lines/" target="_blank" rel="noopener">BioSafe Systems — two-step irrigation line procedure</a></li>
+  </ul>
+  <ul data-lang="es" hidden>
+    <li><a href="https://biosafesystems.com/product/greenclean-acid-cleaner/" target="_blank" rel="noopener">GreenClean Acid Cleaner — página del producto</a></li>
+    <li><a href="https://biosafesystems.com/product/sanidate-5/" target="_blank" rel="noopener">SaniDate 5.0 — página del producto</a></li>
+    <li><a href="https://biosafesystems.com/news/biosafe-systems-two-step-procedure-ensures-clean-irrigation-lines/" target="_blank" rel="noopener">BioSafe Systems — procedimiento de dos pasos para líneas de riego</a></li>
+  </ul>
+  <p data-lang="en">Screen-only reference. Review whenever the product labels change. Version 1.9 · September 2026 — Harvest Day, Cleaning Day 1, and Cleaning Day 2 are now shaded, badged, boxed sections so they read as clearly separate steps.</p>
+  <p data-lang="es" hidden>Referencia solo en pantalla. Revísela cuando cambien las etiquetas de los productos. Versión 1.9 · septiembre de 2026 — el Día de Cosecha, el Día de Limpieza 1 y el Día de Limpieza 2 ahora son secciones sombreadas, con insignia y en recuadro, para que se vean como pasos claramente separados.</p>
+</footer>
+
+<!-- Reference content lives in these pop-up dialogs, opened from the buttons in the top nav bar, so the front page can stay focused on the actual day-of procedure. -->
+
+<dialog class="modal" id="safetyModal">
+  <div class="modal-head">
+    <span class="modal-title" data-lang="en">Safety &amp; PPE</span>
+    <span class="modal-title" data-lang="es" hidden>Seguridad y Equipo de Protección</span>
+    <button type="button" class="modal-close" aria-label="Close">×</button>
+  </div>
+  <div class="modal-body">
+    <div class="callout danger">
+      <span class="label" data-lang="en">Critical — never let these two products touch</span>
+      <span class="label" data-lang="es" hidden>Crítico — nunca deje que estos dos productos se toquen</span>
+
+      <p data-lang="en">GreenClean Acid Cleaner's own safety data sheet lists <b>hydrogen peroxide</b> as a material it reacts dangerously with. SaniDate 5.0 <i>is</i> a hydrogen-peroxide / peroxyacetic-acid product. Never combine concentrates, never dose both into a tank at once, and always run the full Task 2 water flush before starting Task 3. That flush is what keeps the two chemicals from ever meeting in the piping — it isn't a time-saving target.</p>
+      <p data-lang="es" hidden>La hoja de datos de seguridad (SDS) de GreenClean Acid Cleaner indica que el <b>peróxido de hidrógeno</b> es un material con el que reacciona peligrosamente. SaniDate 5.0 <i>es</i> un producto a base de peróxido de hidrógeno y ácido peracético. Nunca combine los concentrados, nunca dosifique ambos en el tanque al mismo tiempo, y siempre haga el enjuague completo con agua de la Tarea 2 antes de comenzar la Tarea 3. Ese enjuague es lo que evita que los dos químicos se encuentren en la tubería — no es un paso para ahorrar tiempo.</p>
+
+      <p data-lang="en">SaniDate 5.0's label separately prohibits combining it with any other pesticide or fertilizer concentrate — treat every batch as a single-product event.</p>
+      <p data-lang="es" hidden>La etiqueta de SaniDate 5.0 también prohíbe combinarlo con cualquier otro concentrado de pesticida o fertilizante — trate cada tanda como un evento de un solo producto.</p>
+    </div>
+
+    <div class="card">
+      <h3 data-lang="en">Required PPE</h3>
+      <h3 data-lang="es" hidden>Equipo de Protección Requerido</h3>
+      <ul class="plain" data-lang="en">
+        <li>Chemical-splash goggles or face shield</li>
+        <li>Acid/oxidizer-resistant gloves — nitrile, neoprene, or rubber. <b>Not</b> leather or cotton.</li>
+        <li>Long sleeves and pants; closed-toe, slip-resistant footwear</li>
+        <li>Ventilate the room while dosing. Don't breathe mist, fumes, or spray from either product.</li>
+      </ul>
+      <ul class="plain" data-lang="es" hidden>
+        <li>Gafas contra salpicaduras químicas o careta protectora</li>
+        <li>Guantes resistentes a ácidos/oxidantes — nitrilo, neopreno o goma. <b>No</b> de cuero ni de algodón.</li>
+        <li>Mangas largas y pantalones largos; calzado cerrado y antideslizante</li>
+        <li>Ventile el cuarto mientras dosifica. No respire la niebla, los vapores ni el rocío de ninguno de los dos productos.</li>
+      </ul>
+    </div>
+
+    <div class="callout warn">
+      <span class="label" data-lang="en">Where the flush water goes</span>
+      <span class="label" data-lang="es" hidden>A dónde va el agua del enjuague</span>
+      <p data-lang="en">Flush water runs out through the same table drippers used for dosing — make sure it drains through the room's floor drain and doesn't pool or run toward any adjacent room with live plants.</p>
+      <p data-lang="es" hidden>El agua del enjuague sale por los mismos goteros de las mesas usados para dosificar — asegúrese de que drene por el desagüe del piso del cuarto y que no se acumule ni corra hacia un cuarto vecino con plantas vivas.</p>
+    </div>
+
+    <div class="card">
+      <h3 data-lang="en">First aid (either product)</h3>
+      <h3 data-lang="es" hidden>Primeros auxilios (cualquiera de los dos productos)</h3>
+      <ul class="plain" data-lang="en">
+        <li><b>Eyes / skin:</b> rinse with water for at least 15 minutes; remove contact lenses if present; take off contaminated clothing immediately.</li>
+        <li><b>Inhalation:</b> move to fresh air, keep comfortable for breathing.</li>
+        <li><b>Ingestion:</b> rinse mouth, do <b>not</b> induce vomiting.</li>
+        <li>Call Poison Control (1-800-222-1222) or a physician for any exposure. Keep the SDS for both products on hand.</li>
+      </ul>
+      <ul class="plain" data-lang="es" hidden>
+        <li><b>Ojos / piel:</b> enjuague con agua durante al menos 15 minutos; quítese los lentes de contacto si los tiene puestos; quítese de inmediato la ropa contaminada.</li>
+        <li><b>Inhalación:</b> traslade a la persona a un lugar con aire fresco y manténgala en una posición cómoda para respirar.</li>
+        <li><b>Ingestión:</b> enjuague la boca, <b>no</b> induzca el vómito.</li>
+        <li>Llame al Centro de Control de Envenenamientos (1-800-222-1222) o a un médico ante cualquier exposición. Tenga a la mano la SDS de ambos productos.</li>
+      </ul>
+    </div>
+  </div>
+</dialog>
+
+<dialog class="modal" id="materialsModal">
+  <div class="modal-head">
+    <span class="modal-title" data-lang="en">Materials &amp; Equipment</span>
+    <span class="modal-title" data-lang="es" hidden>Materiales y Equipo</span>
+    <button type="button" class="modal-close" aria-label="Close">×</button>
+  </div>
+  <div class="modal-body">
+    <div class="card">
+      <ul class="plain" data-lang="en">
+        <li>GreenClean® Acid Cleaner concentrate</li>
+        <li>SaniDate® 5.0 concentrate</li>
+        <li>The room's batch tank + pump — NLT doses by pouring concentrate straight into the tank, no inline injector</li>
+        <li>Clean water supply for flushing</li>
+        <li>PPE: goggles/face shield, nitrile or neoprene gloves, apron or coveralls</li>
+        <li>SDS binder for both products</li>
+      </ul>
+      <ul class="plain" data-lang="es" hidden>
+        <li>Concentrado de GreenClean® Acid Cleaner</li>
+        <li>Concentrado de SaniDate® 5.0</li>
+        <li>El tanque de mezcla y la bomba del cuarto — NLT dosifica vertiendo el concentrado directamente en el tanque, sin inyector en línea</li>
+        <li>Suministro de agua limpia para el enjuague</li>
+        <li>EPP: gafas/careta, guantes de nitrilo o neopreno, delantal o overol</li>
+        <li>Carpeta con la SDS de ambos productos</li>
+      </ul>
+    </div>
+  </div>
+</dialog>
+
+<dialog class="modal" id="dosingModal">
+  <div class="modal-head">
+    <span class="modal-title" data-lang="en">Batch Tank Dosing Calculator</span>
+    <span class="modal-title" data-lang="es" hidden>Calculadora de Dosificación del Tanque de Mezcla</span>
+    <button type="button" class="modal-close" aria-label="Close">×</button>
+  </div>
+  <div class="modal-body">
+    <div class="card">
+      <p data-lang="en">Enter the working volume of the room's batch tank to get a pour amount for each product.</p>
+      <p data-lang="es" hidden>Ingrese el volumen de trabajo del tanque de mezcla del cuarto para obtener la cantidad a verter de cada producto.</p>
+
+      <div class="calc-row">
+        <label for="tankSize" data-lang="en">Batch tank volume</label>
+        <label for="tankSize" data-lang="es" hidden>Volumen del tanque de mezcla</label>
+        <div class="calc-input">
+          <input type="number" id="tankSize" min="0" step="any" inputmode="decimal" placeholder="e.g. 200">
+          <span data-lang="en">gallons</span>
+          <span data-lang="es" hidden>galones</span>
+        </div>
+      </div>
+
+      <div class="calc-result acid">
+        <h3>GreenClean® Acid Cleaner</h3>
+        <div class="tag-row" style="margin-bottom:8px;">
+          <span class="radio-pill">
+            <input type="radio" id="gc50" name="gcRatio" value="50" checked>
+            <label for="gc50" data-lang="en">1:50 (printed label)</label>
+            <label for="gc50" data-lang="es" hidden>1:50 (etiqueta impresa)</label>
+          </span>
+          <span class="radio-pill">
+            <input type="radio" id="gc100" name="gcRatio" value="100">
+            <label for="gc100" data-lang="en">1:100 (BioSafe field procedure)</label>
+            <label for="gc100" data-lang="es" hidden>1:100 (procedimiento de campo de BioSafe)</label>
+          </span>
+        </div>
+        <p class="calc-output" id="gcOutput" data-lang="en">Enter a tank size above.</p>
+        <p class="calc-output" id="gcOutputEs" data-lang="es" hidden>Ingrese el tamaño del tanque arriba.</p>
+      </div>
+
+      <div class="calc-result sani">
+        <h3>SaniDate® 5.0</h3>
+        <p style="margin:0 0 8px 0;">
+          <span class="tag" data-lang="en">Fixed at 1:100</span>
+          <span class="tag" data-lang="es" hidden>Fijo en 1:100</span>
+        </p>
+        <p class="calc-output" id="sdOutput" data-lang="en">Enter a tank size above.</p>
+        <p class="calc-output" id="sdOutputEs" data-lang="es" hidden>Ingrese el tamaño del tanque arriba.</p>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<dialog class="modal" id="troubleModal">
+  <div class="modal-head">
+    <span class="modal-title" data-lang="en">Troubleshooting</span>
+    <span class="modal-title" data-lang="es" hidden>Solución de Problemas</span>
+    <button type="button" class="modal-close" aria-label="Close">×</button>
+  </div>
+  <div class="modal-body">
     <div class="card">
       <div class="tw">
       <table data-lang="en">
         <thead><tr><th>Symptom</th><th>What to do</th></tr></thead>
         <tbody>
           <tr><td>Dripper flow weak or uneven after treatment</td><td>The acid cleaner loosens scale/biofilm that can lodge in a dripper. Pull and clear the affected one before returning the room to service — don't force the pump against a partial blockage.</td></tr>
-          <tr><td>Not confident the acid is fully flushed at 11:00 AM</td><td>Keep flushing before dosing SaniDate 5.0. A full flush matters more than the clock — see the safety warning above.</td></tr>
+          <tr><td>Not confident the acid is fully flushed at 11:00 AM</td><td>Keep flushing before dosing SaniDate 5.0. A full flush matters more than the clock — see the safety warning in the Safety section.</td></tr>
           <tr><td>Batch tank pump loses prime mid-task</td><td>Stop, re-prime, and restart that task's hold time once the pump is confirmed running again.</td></tr>
-          <tr><td>Unsure which GreenClean ratio to use</td><td>Check the physical label on the container in hand — the Dosing Calculator above lets you switch between 1:50 and 1:100.</td></tr>
+          <tr><td>Unsure which GreenClean ratio to use</td><td>Check the physical label on the container in hand — the Dosing Calculator lets you switch between 1:50 and 1:100.</td></tr>
         </tbody>
       </table>
       <table data-lang="es" hidden>
         <thead><tr><th>Síntoma</th><th>Qué hacer</th></tr></thead>
         <tbody>
           <tr><td>Flujo del gotero débil o desigual después del tratamiento</td><td>El limpiador ácido afloja sarro/biopelícula que puede alojarse en un gotero. Retire y limpie el que esté afectado antes de regresar el cuarto a servicio — no fuerce la bomba contra una obstrucción parcial.</td></tr>
-          <tr><td>No hay certeza de que el ácido quedó bien enjuagado a las 11:00 a.m.</td><td>Siga enjuagando antes de dosificar el SaniDate 5.0. Un enjuague completo importa más que el reloj — vea la advertencia de seguridad arriba.</td></tr>
+          <tr><td>No hay certeza de que el ácido quedó bien enjuagado a las 11:00 a.m.</td><td>Siga enjuagando antes de dosificar el SaniDate 5.0. Un enjuague completo importa más que el reloj — vea la advertencia de seguridad en la sección de Seguridad.</td></tr>
           <tr><td>La bomba del tanque de mezcla pierde el cebado a media tarea</td><td>Deténgase, vuelva a cebar la bomba, y reinicie el tiempo de espera de esa tarea una vez que confirme que la bomba está funcionando de nuevo.</td></tr>
-          <tr><td>No está seguro de qué proporción de GreenClean usar</td><td>Revise la etiqueta física del envase que tiene a la mano — la Calculadora de Dosificación de arriba le permite cambiar entre 1:50 y 1:100.</td></tr>
+          <tr><td>No está seguro de qué proporción de GreenClean usar</td><td>Revise la etiqueta física del envase que tiene a la mano — la Calculadora de Dosificación le permite cambiar entre 1:50 y 1:100.</td></tr>
         </tbody>
       </table>
       </div>
     </div>
-  </section>
+  </div>
+</dialog>
 
-  <section id="docs">
-    <h2 data-lang="en">Documentation</h2>
-    <h2 data-lang="es" hidden>Documentación</h2>
+<dialog class="modal" id="docsModal">
+  <div class="modal-head">
+    <span class="modal-title" data-lang="en">Documentation</span>
+    <span class="modal-title" data-lang="es" hidden>Documentación</span>
+    <button type="button" class="modal-close" aria-label="Close">×</button>
+  </div>
+  <div class="modal-body">
     <div class="card">
       <p data-lang="en">Record per room:</p>
       <p data-lang="es" hidden>Registre por cuarto:</p>
@@ -692,26 +837,8 @@
         <li>Firma de conformidad</li>
       </ul>
     </div>
-  </section>
-
-  <footer>
-    <p data-lang="en">Products: GreenClean® Acid Cleaner (BioSafe Systems — cleaning product, not EPA-registered; sulfuric acid 70–75% + phosphonic acid/HEDP 1–5% per SDS) and SaniDate® 5.0 (BioSafe Systems — EPA Reg. No. 70299-19; 23.0% hydrogen peroxide, 5.3% peroxyacetic acid per label). Rates and dwell times drawn from the current product labels, safety data sheets, and BioSafe's published two-step irrigation line procedure — always defer to the physical label and SDS on the container in hand.</p>
-    <p data-lang="es" hidden>Productos: GreenClean® Acid Cleaner (BioSafe Systems — producto de limpieza, no registrado ante la EPA; ácido sulfúrico 70–75% + ácido fosfónico/HEDP 1–5% según la SDS) y SaniDate® 5.0 (BioSafe Systems — Núm. de Registro EPA 70299-19; 23.0% peróxido de hidrógeno, 5.3% ácido peracético según la etiqueta). Las proporciones y los tiempos de contacto provienen de las etiquetas actuales de los productos, las hojas de datos de seguridad, y el procedimiento de dos pasos para líneas de riego publicado por BioSafe — siempre siga la etiqueta física y la SDS del envase que tiene a la mano.</p>
-    <ul data-lang="en">
-      <li><a href="https://biosafesystems.com/product/greenclean-acid-cleaner/" target="_blank" rel="noopener">GreenClean Acid Cleaner — product page</a></li>
-      <li><a href="https://biosafesystems.com/product/sanidate-5/" target="_blank" rel="noopener">SaniDate 5.0 — product page</a></li>
-      <li><a href="https://biosafesystems.com/news/biosafe-systems-two-step-procedure-ensures-clean-irrigation-lines/" target="_blank" rel="noopener">BioSafe Systems — two-step irrigation line procedure</a></li>
-    </ul>
-    <ul data-lang="es" hidden>
-      <li><a href="https://biosafesystems.com/product/greenclean-acid-cleaner/" target="_blank" rel="noopener">GreenClean Acid Cleaner — página del producto</a></li>
-      <li><a href="https://biosafesystems.com/product/sanidate-5/" target="_blank" rel="noopener">SaniDate 5.0 — página del producto</a></li>
-      <li><a href="https://biosafesystems.com/news/biosafe-systems-two-step-procedure-ensures-clean-irrigation-lines/" target="_blank" rel="noopener">BioSafe Systems — procedimiento de dos pasos para líneas de riego</a></li>
-    </ul>
-    <p data-lang="en">Screen-only reference. Review whenever the product labels change. Version 1.3 · September 2026 — added an English/Español toggle.</p>
-    <p data-lang="es" hidden>Referencia solo en pantalla. Revísela cuando cambien las etiquetas de los productos. Versión 1.3 · septiembre de 2026 — se agregó un interruptor de inglés/español.</p>
-  </footer>
-
-</main>
+  </div>
+</dialog>
 
 <script>
 (function(){
@@ -828,6 +955,27 @@
     r.addEventListener('change', updateDosing);
   });
   syncBtn.addEventListener('click', syncToSheet);
+
+  // Pop-up reference sections: any button with data-modal opens that dialog
+  // (the top nav bar, plus the inline "Dosing Calculator" mentions on Day 1).
+  document.querySelectorAll('[data-modal]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var dlg = document.getElementById(btn.getAttribute('data-modal'));
+      if(dlg) dlg.showModal();
+    });
+  });
+  document.querySelectorAll('dialog.modal').forEach(function(dlg){
+    var closeBtn = dlg.querySelector('.modal-close');
+    if(closeBtn){
+      closeBtn.addEventListener('click', function(){ dlg.close(); });
+    }
+    // Click on the backdrop (outside the dialog's own box) closes it too.
+    dlg.addEventListener('click', function(e){
+      var r = dlg.getBoundingClientRect();
+      var inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+      if(!inside) dlg.close();
+    });
+  });
 
   updateChecklist();
   updateDosing();
